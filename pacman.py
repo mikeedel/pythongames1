@@ -24,11 +24,12 @@ bg_color = 'blue'
 path_color = 'black'
 coin_color = 'gold'
 score_color = 'white'
+velocity = 8
 ghosts = [
-    [vector(-180, 160), vector(5, 0)],
-    [vector(-180, -160), vector(0, 5)],
-    [vector(100, 160), vector(0, -5)],
-    [vector(100, -160), vector(-5, 0)],
+    [vector(-180, 160), vector(velocity, 0)],
+    [vector(-180, -160), vector(0, velocity)],
+    [vector(100, 160), vector(0, -velocity)],
+    [vector(100, -160), vector(-velocity, 0)],
 ]
 # fmt: off
 tiles = [
@@ -106,7 +107,7 @@ def world():
             y = 180 - (index // 20) * 20
             square(x, y)
 
-            if tile == 1:
+            if tile == 1: # 
                 path.up()
                 path.goto(x + 10, y + 10) # Center coin
                 path.dot(4, coin_color) # Draw coin
@@ -132,18 +133,18 @@ def move():
         square(x, y)
 
     up()
-    goto(pacman.x + 10, pacman.y + 10)
-    dot(20, 'yellow')
+    goto(pacman.x + 10, pacman.y + 10) # Update pacman position
+    dot(20, pacman_color) # Draw pacman
 
     for point, course in ghosts:
         if valid(point + course):
             point.move(course)
         else:
             options = [
-                vector(5, 0),
-                vector(-5, 0),
-                vector(0, 5),
-                vector(0, -5),
+                vector(velocity, 0),
+                vector(-velocity, 0),
+                vector(0, velocity),
+                vector(0, -velocity),
             ]
             plan = choice(options)
             course.x = plan.x
