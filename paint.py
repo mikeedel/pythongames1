@@ -38,6 +38,11 @@ def square(start, end):
 
 def circle(start, end):
     """Draw circle from start to end."""
+    t.begin_fill()
+    t.goto(start.x,start.y)
+    r = (end.x - start.x)/2
+    t.circle(50)
+    t.end_fill()
     pass  # TODO
 
 
@@ -48,6 +53,7 @@ def rectangle(start, end):
 
 def triangle(start, end):
     """Draw triangle from start to end."""
+ 
     pass  # TODO
 
 
@@ -68,7 +74,7 @@ def store(key, value):
     """Store value in state at key."""
     state[key] = value
 
-
+t = Turtle()
 state = {'start': None, 'shape': line}
 setup(420, 420, 370, 0)
 onscreenclick(tap)
@@ -76,9 +82,10 @@ listen()
 onkey(undo, 'u')
 onkey(lambda: color('black'), 'K')
 onkey(lambda: color('white'), 'W')
-onkey(lambda: color('green'), 'G')
+onkey(lambda: t.color('pink'), 'G')
 onkey(lambda: color('blue'), 'B')
-onkey(lambda: color('red'), 'R')
+onkey(lambda: t.color('red'), 'R')
+onkey(lambda: t.color('yellow'), 'Y')
 onkey(lambda: store('shape', line), 'l')
 onkey(lambda: store('shape', square), 's')
 onkey(lambda: store('shape', circle), 'c')
