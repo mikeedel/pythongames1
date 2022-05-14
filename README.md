@@ -1,5 +1,6 @@
 # pythongames1
 Semana Tec: Herramientas Computacionales: El arte de la programación
+
 Juego 1: Paint/Juego Pintado 
 Cambios: 
 Un color nuevo
