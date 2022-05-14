@@ -18,3 +18,7 @@ Cambios:
 Contar y desplegar el numero de taps
 Detectar cuando todos los cuadros se han destapado
 Central el dígito en el cuadro
+
+Juego 4: Pacman 
+Cambios: 
+Los fantasmas deberán ser inteligentes y moverse más rápido. El escenario deberá ser diferente.
