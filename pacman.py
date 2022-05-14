@@ -2,10 +2,10 @@
 
 Exercises
 
-1. Change the board.
+* 1. Change the board.
 2. Change the number of ghosts.
 3. Change where pacman starts.
-4. Make the ghosts faster/slower.
+* 4. Make the ghosts faster/slower.
 5. Make the ghosts smarter.
 """
 
@@ -24,7 +24,7 @@ bg_color = 'blue'
 path_color = 'black'
 coin_color = 'gold'
 score_color = 'white'
-velocity = 8
+velocity = 5
 ghosts = [
     [vector(-180, 160), vector(velocity, 0)],
     [vector(-180, -160), vector(0, velocity)],
@@ -64,7 +64,7 @@ def square(x, y):
     path.down()
     path.begin_fill()
 
-    for count in range(4):
+    for count in range(4): # Fit all four sides of the square
         path.forward(20)
         path.left(90)
 
@@ -102,12 +102,12 @@ def world():
     for index in range(len(tiles)):
         tile = tiles[index]
 
-        if tile > 0:
+        if tile > 0: # Black square
             x = (index % 20) * 20 - 200
             y = 180 - (index // 20) * 20
             square(x, y)
 
-            if tile == 1: # 
+            if tile == 1: # Black square with coin
                 path.up()
                 path.goto(x + 10, y + 10) # Center coin
                 path.dot(4, coin_color) # Draw coin
@@ -115,12 +115,13 @@ def world():
 
 def move():
     """Move pacman and all ghosts."""
+
     writer.undo()
     writer.write(state['score']) # Update score
 
     clear()
 
-    if valid(pacman + aim):
+    if valid(pacman + aim): # Check if the pacman can move forward
         pacman.move(aim)
 
     index = offset(pacman)
@@ -137,22 +138,40 @@ def move():
     dot(20, pacman_color) # Draw pacman
 
     for point, course in ghosts:
+
         if valid(point + course):
             point.move(course)
-        else:
-            options = [
-                vector(velocity, 0),
-                vector(-velocity, 0),
-                vector(0, velocity),
-                vector(0, -velocity),
-            ]
+        
+        else: # The ghosts try to move towards pacman
+
+            if point.x < pacman.x and point.y < pacman.y:
+                options = [
+                    vector(velocity, 0),
+                    vector(0, velocity),
+                ]
+            elif point.x < pacman.x and point.y >= pacman.y:
+                options = [
+                    vector(velocity, 0),
+                    vector(0, -velocity),
+                ]
+            elif point.x >= pacman.x and point.y < pacman.y:
+                options = [
+                    vector(-velocity, 0),
+                    vector(0, velocity),
+                ]
+            elif point.x >= pacman.x and point.y >= pacman.y:
+                options = [
+                    vector(-velocity, 0),
+                    vector(0, -velocity),
+                ]
+            
             plan = choice(options)
             course.x = plan.x
             course.y = plan.y
 
         up()
-        goto(point.x + 10, point.y + 10)
-        dot(20, 'red')
+        goto(point.x + 10, point.y + 10) # Update ghost position
+        dot(20, 'red') # Draw ghost
 
     update()
 
